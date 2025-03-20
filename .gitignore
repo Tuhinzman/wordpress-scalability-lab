@@ -1,0 +1,66 @@
+# AWS credentials and config files
+.aws/
+*aws-credentials*
+*.pem
+*id_rsa*
+*credentials*
+credentials.csv
+
+# Environment variables
+.env
+.env.*
+*.env
+
+# Local configuration
+config.json
+*config*.json
+*secrets*.json
+
+# CloudFormation local files
+*-parameters.json
+cfn-parameters.json
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Operating System Files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE and editor folders
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Node modules if you use any JavaScript tools
+node_modules/
+
+# Python virtual environments
+venv/
+ENV/
+.env/
+.venv/
+env/
+env.bak/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Terraform files if you use it later
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
