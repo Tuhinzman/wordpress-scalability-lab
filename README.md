@@ -6,6 +6,54 @@ A comprehensive demonstration of evolving a WordPress application from a single 
 
 This repository documents the step-by-step process of building and evolving a WordPress application on AWS, progressing from a simple, monolithic deployment to a highly available, scalable architecture. The project is structured as a hands-on learning resource for AWS Solutions Architect Associate (SAA-03) exam preparation.
 
+## Architecture Diagram
+
+```
++---------------------------------------------------------------------------------------------------------------------+
+|                                                    AWS Cloud                                                         |
+|  +---------------------------------------------------------------------------------------------------------------+  |
+|  |                                         VPC (10.16.0.0/16) - A4LVPC                                           |  |
+|  |                                                      |                                                         |  |
+|  |                                             Internet Gateway                                                   |  |
+|  |                                                      |                                                         |  |
+|  |                                           Public Route Table                                                   |  |
+|  |            +-----------------------+    +-----------------------+    +-----------------------+                 |  |
+|  |            | Availability Zone A   |    | Availability Zone B   |    | Availability Zone C   |                 |  |
+|  |            |                       |    |                       |    |                       |                 |  |
+|  |            | +-------------------+ |    | +-------------------+ |    | +-------------------+ |                 |  |
+|  |            | | Public Subnet A   | |    | | Public Subnet B   | |    | | Public Subnet C   | |                 |  |
+|  |            | | 10.16.48.0/20     | |    | | 10.16.112.0/20    | |    | | 10.16.176.0/20    | |                 |  |
+|  |            | | IPv6: [VPC]:03::/64| |    | | IPv6: [VPC]:07::/64| |    | | IPv6: [VPC]:0B::/64| |                 |  |
+|  |            | +-------------------+ |    | +-------------------+ |    | +-------------------+ |                 |  |
+|  |            |                       |    |                       |    |                       |                 |  |
+|  |            | +-------------------+ |    | +-------------------+ |    | +-------------------+ |                 |  |
+|  |            | | App Subnet A      | |    | | App Subnet B      | |    | | App Subnet C      | |                 |  |
+|  |            | | 10.16.32.0/20     | |    | | 10.16.96.0/20     | |    | | 10.16.160.0/20    | |                 |  |
+|  |            | | IPv6: [VPC]:02::/64| |    | | IPv6: [VPC]:06::/64| |    | | IPv6: [VPC]:0A::/64| |                 |  |
+|  |            | +-------------------+ |    | +-------------------+ |    | +-------------------+ |                 |  |
+|  |            |                       |    |                       |    |                       |                 |  |
+|  |            | +-------------------+ |    | +-------------------+ |    | +-------------------+ |                 |  |
+|  |            | | DB Subnet A       | |    | | DB Subnet B       | |    | | DB Subnet C       | |                 |  |
+|  |            | | 10.16.16.0/20     | |    | | 10.16.80.0/20     | |    | | 10.16.144.0/20    | |                 |  |
+|  |            | | IPv6: [VPC]:01::/64| |    | | IPv6: [VPC]:05::/64| |    | | IPv6: [VPC]:09::/64| |                 |  |
+|  |            | +-------------------+ |    | +-------------------+ |    | +-------------------+ |                 |  |
+|  |            +-----------------------+    +-----------------------+    +-----------------------+                 |  |
+|  |                                                                                                               |  |
+|  |  +--------------------------------------------------------------------------------------------------+        |  |
+|  |  |                                     Security Groups                                               |        |  |
+|  |  |                                                                                                  |        |  |
+|  |  | +-----------------+  +----------------+  +---------------------+  +-----------------+            |        |  |
+|  |  | | SGWordpress     |  | SGDatabase     |  | SGLoadBalancer      |  | SGEFS           |            |        |  |
+|  |  | | Allow HTTP (80) |  | Allow MySQL    |  | Allow HTTP (80)     |  | Allow NFS (2049)|            |        |  |
+|  |  | | from anywhere   |  | (3306) from WP |  | from anywhere       |  | from WP        |            |        |  |
+|  |  | +-----------------+  +----------------+  +---------------------+  +-----------------+            |        |  |
+|  |  +--------------------------------------------------------------------------------------------------+        |  |
+|  +---------------------------------------------------------------------------------------------------------------+  |
++---------------------------------------------------------------------------------------------------------------------+
+```
+
+*Note: The diagram shows the foundational VPC architecture. As you progress through the stages, you'll add EC2 instances, RDS, EFS, Load Balancers, and Auto Scaling Groups to this infrastructure.*
+
 ## Architecture Evolution
 
 The demo consists of 6 stages, each implementing additional components of the architecture:
